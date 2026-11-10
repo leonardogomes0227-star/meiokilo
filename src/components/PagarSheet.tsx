@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { aplicar, desfazerPagamento } from '../lib/ops'
 import { useData } from '../lib/store'
 import { aplicarPagamento, calcularDivida, proximoVencimento, round2 } from '@calc'
@@ -19,6 +19,10 @@ export default function PagarSheet({ loan, client, onFechar }: Props) {
   const [valor, setValor] = useState(paraCampo(sugestao))
   const [data, setData] = useState(hoje)
   const [feito, setFeito] = useState<{ pg: Payment; depois: Loan } | null>(null)
+  // Só recarrega os dados quando esta janela fecha: se recarregasse antes, o cartão do cliente
+  // sairia da lista (já está pago) e levaria a janela de "Pronto!" junto.
+  const sujo = useRef(false)
+  useEffect(() => () => { if (sujo.current) void reload() }, [reload])
 
   const v = num(valor)
   const d = calcularDivida(loan, profile, data)
@@ -32,14 +36,14 @@ export default function PagarSheet({ loan, client, onFechar }: Props) {
       const r = aplicarPagamento(loan, v, data, profile)
       const pg = await aplicar(loan.id, r)
       resultado = { pg, depois: { ...loan, ...r.novo } }
-      await reload()
+      sujo.current = true
     })
     if (ok && resultado) setFeito(resultado)
   }
 
   async function desfazer() {
     if (!feito) return
-    const ok = await rodar(async () => { await desfazerPagamento(feito.pg.id); await reload() })
+    const ok = await rodar(async () => { await desfazerPagamento(feito.pg.id) })
     if (ok) { aviso('Pagamento desfeito.'); onFechar() }
   }
 

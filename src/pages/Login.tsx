@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { supabase, configurado } from '../lib/supabase'
 import { Button, Field, inputCls } from '../components/ui'
+import { apagarDadosDeTeste, entrarNoModoTeste } from '../lib/demo'
 
 export default function Login() {
   const [modo, setModo] = useState<'entrar' | 'criar' | 'esqueci'>('entrar')
@@ -12,9 +13,17 @@ export default function Login() {
 
   if (!configurado) {
     return (
-      <div className="p-6 max-w-md mx-auto space-y-3">
-        <h1 className="text-2xl font-bold">Falta configurar</h1>
-        <p>Crie o arquivo <code>.env.local</code> com <code>VITE_SUPABASE_URL</code> e <code>VITE_SUPABASE_ANON_KEY</code>. O passo a passo está no README.</p>
+      <div className="min-h-dvh flex items-center justify-center p-5">
+        <div className="w-full max-w-sm space-y-4 text-center">
+          <img src="/icons/icon.svg" alt="" className="w-20 h-20 mx-auto rounded-2xl" />
+          <h1 className="text-3xl font-extrabold">MeioKilo</h1>
+          <p className="rounded-xl bg-amber-100 text-amber-900 dark:bg-amber-400/20 dark:text-amber-200 p-3 font-semibold">
+            Modo teste: os dados ficam só neste aparelho e não vão para a internet.
+          </p>
+          <Button block onClick={() => entrarNoModoTeste(true)}>Entrar com dados de exemplo</Button>
+          <Button v="secondary" block onClick={() => entrarNoModoTeste(false)}>Entrar vazio (começar do zero)</Button>
+          <Button v="ghost" small onClick={() => { if (confirm('Apagar todos os dados de teste deste aparelho?')) apagarDadosDeTeste() }}>Apagar dados de teste</Button>
+        </div>
       </div>
     )
   }

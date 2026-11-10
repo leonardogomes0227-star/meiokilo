@@ -2,6 +2,7 @@ import { NavLink, Outlet, Link } from 'react-router-dom'
 import { useCobrancas } from '../lib/store'
 import { reais } from '../lib/format'
 import { cx } from './ui'
+import { configurado } from '../lib/supabase'
 
 const ABAS = [
   { to: '/', rotulo: 'Hoje', icone: '📅', fim: true },
@@ -20,6 +21,7 @@ export default function Layout() {
 
   return (
     <div className="min-h-dvh pb-24">
+      {!configurado && <div className="bg-amber-200 text-amber-950 text-center text-sm font-semibold py-1 safe-t no-print">MODO TESTE · dados só neste aparelho</div>}
       {urgentes > 0 && (
         <Link to="/" className={cx('block safe-t px-4 py-2 text-center font-semibold text-base no-print',
           atrasados.length ? 'bg-red-600 text-white' : 'bg-amber-400 text-amber-950')}>

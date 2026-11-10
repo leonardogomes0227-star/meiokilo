@@ -8,6 +8,14 @@ Tudo no plano grátis.
 
 ---
 
+## Modo teste (sem Supabase)
+
+Se as chaves `VITE_SUPABASE_*` **não** estiverem configuradas (por exemplo, um deploy de teste na Vercel),
+o app abre em **modo teste**: aparece uma tela com "Entrar com dados de exemplo" ou "Entrar vazio".
+Os dados ficam só no navegador do aparelho (localStorage), não vão para a internet e não há login.
+Cobranças, recibos, painel e desfazer funcionam; **não** funcionam notificações push nem e-mail (dependem do Supabase).
+Para uso de verdade, siga o passo 2 e coloque as chaves; o modo teste desaparece sozinho.
+
 ## 1. Rodar no computador
 
 ```bash

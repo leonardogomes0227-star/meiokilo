@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import type { Session } from '@supabase/supabase-js'
-import { supabase, configurado } from './lib/supabase'
+import { supabase } from './lib/supabase'
 import { DataProvider } from './lib/store'
 import { temPin } from './lib/pin'
 import Login from './pages/Login'
@@ -51,7 +51,6 @@ export default function App() {
   const [travado, setTravado] = useState(temPin())
 
   useEffect(() => {
-    if (!configurado) { setSession(null); return }
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
     const { data } = supabase.auth.onAuthStateChange((_e, s) => setSession(s))
     return () => data.subscription.unsubscribe()
