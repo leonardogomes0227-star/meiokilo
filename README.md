@@ -136,3 +136,5 @@ scripts/                  gerar-icones.mjs, testar-sql.mjs
 - Notificações e e-mail e o agendamento (pg_cron) **só foram escritos e checados por tipo**, sem teste contra um Supabase real. Siga o passo 4.5 e faça o teste.
 - Recibos e relatórios em PDF usam a impressão do navegador (“Salvar como PDF”), sem biblioteca.
 - Excluir cliente só é permitido sem empréstimos, e não tem desfazer. Excluir empréstimo tem desfazer.
+
+<!-- deploy 20261110T140945Z -->
