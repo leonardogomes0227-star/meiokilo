@@ -1,0 +1,7 @@
+# Configuração mínima do Supabase CLI.
+project_id = "meiokilo"
+
+# A função de lembretes é chamada pelo pg_cron com um segredo próprio (x-cron-secret)
+# e pelo app com o login do usuário (teste de notificação), então validamos manualmente.
+[functions.lembretes]
+verify_jwt = false
